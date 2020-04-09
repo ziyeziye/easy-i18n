@@ -5,9 +5,12 @@ import (
 	"os"
 
 	"github.com/mylukin/easy-i18n/i18n"
+	"golang.org/x/text/language"
 )
 
 func main() {
+
+	i18n.SetLang(language.English)
 
 	i18n.Printf("hello world!")
 	fmt.Println()

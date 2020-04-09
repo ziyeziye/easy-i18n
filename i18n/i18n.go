@@ -25,8 +25,8 @@ func init() {
 	p = message.NewPrinter(language.English)
 }
 
-// New i18n instance
-func New(lang language.Tag) {
+// SetLang set language
+func SetLang(lang language.Tag) {
 	p = message.NewPrinter(lang)
 }
 
