@@ -9,6 +9,9 @@ import (
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	"github.com/BurntSushi/toml"
+	"gopkg.in/yaml.v2"
 )
 
 // Generate messages
@@ -46,6 +49,20 @@ func Generate(pkgName string, paths []string, outFile string) error {
 
 			if strings.HasSuffix(fileExt, ".json") {
 				err := json.Unmarshal(buf, data[lang])
+				if err != nil {
+					return err
+				}
+			}
+
+			if strings.HasSuffix(fileExt, ".yaml") {
+				err := yaml.Unmarshal(buf, data[lang])
+				if err != nil {
+					return err
+				}
+			}
+
+			if strings.HasSuffix(fileExt, ".toml") {
+				_, err := toml.Decode(string(buf), data[lang])
 				if err != nil {
 					return err
 				}

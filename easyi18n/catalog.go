@@ -16,6 +16,7 @@ func initEn(tag language.Tag) {
 	message.SetString(tag, "%s generate [path] [outfile]", "%s generate [path] [outfile]")
 	message.SetString(tag, "a tool for managing message translations.", "a tool for managing message translations.")
 	message.SetString(tag, "extracts strings to be translated from code", "extracts strings to be translated from code")
+	message.SetString(tag, "generated go file package name", "generated go file package name")
 	message.SetString(tag, "generates code to insert translated messages", "generates code to insert translated messages")
 	message.SetString(tag, "merge translations and generate catalog", "merge translations and generate catalog")
 }
