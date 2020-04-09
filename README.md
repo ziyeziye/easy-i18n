@@ -1,6 +1,6 @@
-# easy-i18n
+# Easy-i18n
 
-easy-i18n is a Go package and a command that helps you translate Go programs into multiple languages.
+Easy-i18n is a Go package and a command that helps you translate Go programs into multiple languages.
 
 - Supports [pluralized strings](http://cldr.unicode.org/index/cldr-spec/plural-rules) for all 200+ languages in the [Unicode Common Locale Data Repository (CLDR)](http://www.unicode.org/cldr/charts/28/supplemental/language_plural_rules.html).
 - Supports strings with similar to [fmt.Sprintf](https://golang.org/pkg/fmt/) format syntax.
