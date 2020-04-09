@@ -1,9 +1,10 @@
 package i18n
 
 import (
-	"fmt"
+	"io"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
@@ -31,17 +32,30 @@ func New(lang language.Tag) {
 
 // Printf is like fmt.Printf, but using language-specific formatting.
 func Printf(format string, args ...interface{}) {
-	fmt.Print(Sprintf(format, args...))
+	format, args = preArgs(format, args...)
+	p.Printf(format, args...)
 }
 
 // Sprintf formats according to a format specifier and returns the resulting string.
 func Sprintf(format string, args ...interface{}) string {
+	format, args = preArgs(format, args...)
+	return p.Sprintf(format, args...)
+}
+
+// Fprintf is like fmt.Fprintf, but using language-specific formatting.
+func Fprintf(w io.Writer, key message.Reference, a ...interface{}) (n int, err error) {
+	format, args := preArgs(key.(string), a...)
+	key = message.Reference(format)
+	return p.Fprintf(w, key, args...)
+}
+
+// preArgs
+func preArgs(format string, args ...interface{}) (string, []interface{}) {
 	length := len(args)
 	if length > 0 {
 		lastArg := args[length-1]
 		switch lastArg.(type) {
 		case []PluralRule:
-			args = args[:length-1]
 			rules := lastArg.([]PluralRule)
 			// parse rule
 			for _, rule := range rules {
@@ -51,9 +65,10 @@ func Sprintf(format string, args ...interface{}) string {
 					break
 				}
 			}
+			args = args[0:strings.Count(format, "%")]
 		}
 	}
-	return p.Sprintf(format, args...)
+	return format, args
 }
 
 // Plural is parse to rule

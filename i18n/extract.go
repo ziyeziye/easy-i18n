@@ -1,6 +1,7 @@
 package i18n
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"go/ast"
@@ -10,10 +11,13 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/BurntSushi/toml"
+	"gopkg.in/yaml.v2"
 )
 
 // Extract messages
-func Extract(paths []string, out string) error {
+func Extract(paths []string, outFile string) error {
 	if len(paths) == 0 {
 		paths = []string{"."}
 	}
@@ -61,7 +65,7 @@ func Extract(paths []string, out string) error {
 						// 包名必须相等
 						if i18NPackName == packName {
 							// 函数名必须相等
-							if funcName == "Printf" || funcName == "Sprintf" {
+							if funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
 								// 找到字符串
 								if str, ok := v.Args[0].(*ast.BasicLit); ok {
 									id := strings.Trim(str.Value, `"`)
@@ -96,11 +100,23 @@ func Extract(paths []string, out string) error {
 		}
 	}
 
-	content, err := json.MarshalIndent(messages, "", "  ")
+	var content []byte
+	var err error
+	of := strings.ToLower(outFile)
+	if strings.HasSuffix(of, ".json") {
+		content, err = marshal(messages, "json")
+	}
+	if strings.HasSuffix(of, ".toml") {
+		content, err = marshal(messages, "toml")
+	}
+	if strings.HasSuffix(of, ".yaml") {
+		content, err = marshal(messages, "yaml")
+	}
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile(out, content, 0664)
+
+	err = ioutil.WriteFile(outFile, content, 0664)
 	if err != nil {
 		return nil
 	}
@@ -117,4 +133,20 @@ func i18nPackageName(file *ast.File) string {
 		}
 	}
 	return ""
+}
+
+func marshal(v interface{}, format string) ([]byte, error) {
+	switch format {
+	case "json":
+		return json.MarshalIndent(v, "", "  ")
+	case "toml":
+		var buf bytes.Buffer
+		enc := toml.NewEncoder(&buf)
+		enc.Indent = ""
+		err := enc.Encode(v)
+		return buf.Bytes(), err
+	case "yaml":
+		return yaml.Marshal(v)
+	}
+	return nil, fmt.Errorf("unsupported format: %s", format)
 }
