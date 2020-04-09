@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -10,10 +11,10 @@ import (
 )
 
 func main() {
-	// 探测操作系统语言
+	// Detect OS language
 	tag, _ := locale.Detect()
 
-	// 设置语言包
+	// Set Language
 	i18n.SetLang(tag)
 
 	appName := "easyi18n"
@@ -29,11 +30,24 @@ func main() {
 
 		Commands: []*cli.Command{
 			{
-				Name:    "update",
-				Aliases: []string{"u"},
-				Usage:   i18n.Sprintf("merge translations and generate catalog"),
+				Name:      "update",
+				Aliases:   []string{"u"},
+				Usage:     i18n.Sprintf("merge translations and generate catalog"),
+				UsageText: i18n.Sprintf("%s update srcfile destfile", appName),
 				Action: func(c *cli.Context) error {
-					return nil
+					srcFile := c.Args().Get(0)
+					if len(srcFile) == 0 {
+						return fmt.Errorf(i18n.Sprintf("srcfile cannot be empty"))
+					}
+
+					destFile := c.Args().Get(1)
+					if len(destFile) == 0 {
+						return fmt.Errorf(i18n.Sprintf("destfile cannot be empty"))
+					}
+
+					err := i18n.Update(srcFile, destFile)
+
+					return err
 				},
 			},
 			{

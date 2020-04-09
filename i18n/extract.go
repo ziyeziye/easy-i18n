@@ -1,8 +1,6 @@
 package i18n
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 	"go/ast"
 	"go/parser"
@@ -11,9 +9,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
-	"github.com/BurntSushi/toml"
-	"gopkg.in/yaml.v2"
 )
 
 // Extract messages
@@ -133,20 +128,4 @@ func i18nPackageName(file *ast.File) string {
 		}
 	}
 	return ""
-}
-
-func marshal(v interface{}, format string) ([]byte, error) {
-	switch format {
-	case "json":
-		return json.MarshalIndent(v, "", "  ")
-	case "toml":
-		var buf bytes.Buffer
-		enc := toml.NewEncoder(&buf)
-		enc.Indent = ""
-		err := enc.Encode(v)
-		return buf.Bytes(), err
-	case "yaml":
-		return yaml.Marshal(v)
-	}
-	return nil, fmt.Errorf("unsupported format: %s", format)
 }

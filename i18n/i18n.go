@@ -1,13 +1,20 @@
 package i18n
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
 	"io"
+	"io/ioutil"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
 
+	"github.com/BurntSushi/toml"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
+	"gopkg.in/yaml.v2"
 )
 
 var p *message.Printer
@@ -19,6 +26,9 @@ type PluralRule struct {
 	Value int
 	Text  string
 }
+
+// Message is message
+type Message map[string]string
 
 func init() {
 	// init use English
@@ -98,4 +108,56 @@ func Plural(cases ...interface{}) []PluralRule {
 		i++
 	}
 	return rules
+}
+
+func unmarshal(path string) (*Message, error) {
+	result := &Message{}
+	fileExt := strings.ToLower(filepath.Ext(path))
+	if fileExt != ".toml" && fileExt != ".json" && fileExt != ".yaml" {
+		return result, fmt.Errorf(Sprintf("File type not supported"))
+	}
+
+	buf, err := ioutil.ReadFile(path)
+	if err != nil {
+		return result, nil
+	}
+
+	if strings.HasSuffix(fileExt, ".json") {
+		err := json.Unmarshal(buf, result)
+		if err != nil {
+			return result, err
+		}
+	}
+
+	if strings.HasSuffix(fileExt, ".yaml") {
+		err := yaml.Unmarshal(buf, result)
+		if err != nil {
+			return result, err
+		}
+	}
+
+	if strings.HasSuffix(fileExt, ".toml") {
+		_, err := toml.Decode(string(buf), result)
+		if err != nil {
+			return result, err
+		}
+	}
+	return result, nil
+
+}
+
+func marshal(v interface{}, format string) ([]byte, error) {
+	switch format {
+	case "json":
+		return json.MarshalIndent(v, "", "  ")
+	case "toml":
+		var buf bytes.Buffer
+		enc := toml.NewEncoder(&buf)
+		enc.Indent = ""
+		err := enc.Encode(v)
+		return buf.Bytes(), err
+	case "yaml":
+		return yaml.Marshal(v)
+	}
+	return nil, fmt.Errorf("unsupported format: %s", format)
 }

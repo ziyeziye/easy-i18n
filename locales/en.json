@@ -1,0 +1,10 @@
+{
+  "hello world!": "hello world!",
+  "hello %s!": "hello %s!",
+  "%s has %d apple.": "%s has %d apple.",
+  "%s has %d cat.": "%s has %d cat.",
+  "%s has %d cats.": "%s has %d cats.",
+  "%s have %d apples.": "%s have %d apples.",
+  "%s have an apple.": "%s have an apple.",
+  "%s have two apples.": "%s have two apples."
+}

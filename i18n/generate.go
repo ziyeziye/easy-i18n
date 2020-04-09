@@ -1,20 +1,15 @@
 package i18n
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
-
-	"github.com/BurntSushi/toml"
-	"gopkg.in/yaml.v2"
 )
 
-// Generate messages
+// Generate catalog.go
 func Generate(pkgName string, paths []string, outFile string) error {
 	if len(paths) == 0 {
 		paths = []string{"."}
@@ -25,7 +20,7 @@ func Generate(pkgName string, paths []string, outFile string) error {
 		log.Fatal(err)
 	}
 
-	data := map[string]*map[string]string{}
+	data := map[string]*Message{}
 	for _, path := range paths {
 		if err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
@@ -34,39 +29,15 @@ func Generate(pkgName string, paths []string, outFile string) error {
 			if info.IsDir() {
 				return nil
 			}
-			fileExt := strings.ToLower(filepath.Ext(path))
-			if fileExt != ".toml" && fileExt != ".json" && fileExt != ".yaml" {
-				return nil
-			}
 
-			buf, err := ioutil.ReadFile(path)
+			messages, err := unmarshal(path)
 			if err != nil {
 				return err
 			}
+
 			lang := info.Name()[0 : len(info.Name())-5]
-			data[lang] = new(map[string]string)
+			data[lang] = messages
 			fmt.Printf("Generate %+v ...\n", path)
-
-			if strings.HasSuffix(fileExt, ".json") {
-				err := json.Unmarshal(buf, data[lang])
-				if err != nil {
-					return err
-				}
-			}
-
-			if strings.HasSuffix(fileExt, ".yaml") {
-				err := yaml.Unmarshal(buf, data[lang])
-				if err != nil {
-					return err
-				}
-			}
-
-			if strings.HasSuffix(fileExt, ".toml") {
-				_, err := toml.Decode(string(buf), data[lang])
-				if err != nil {
-					return err
-				}
-			}
 
 			return nil
 		}); err != nil {
@@ -75,7 +46,7 @@ func Generate(pkgName string, paths []string, outFile string) error {
 	}
 
 	err = i18nTmpl.Execute(goFile, struct {
-		Data      map[string]*map[string]string
+		Data      map[string]*Message
 		BackQuote string
 		Package   string
 	}{

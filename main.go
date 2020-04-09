@@ -29,15 +29,10 @@ func main() {
 	))
 	fmt.Println()
 
-	i18n.Fprintf(os.Stderr, "%s have %d apple.", name, 1, i18n.Plural(
+	i18n.Fprintf(os.Stderr, "%s have %d apple.", name, 2, i18n.Plural(
 		"%[2]d=1", "%s have an apple.",
 		"%[2]d=2", "%s have two apples.",
 		"%[2]d>2", "%s have %d apples.",
 	))
 	fmt.Println()
-
-	i18n.Extract([]string{
-		".",
-	}, "./en.json")
-
 }
