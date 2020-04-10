@@ -118,7 +118,7 @@ If you have added new messages to your program:
 # Thanks:
 
 - https://xuanwo.io/2019/12/11/golang-i18n/
-- https://github.com/qingstor/qsctl
+- https://github.com/qingstor/qsctl/tree/master/pkg/i18n
 - https://github.com/golang/text
 - https://github.com/nicksnyder/go-i18n
 
