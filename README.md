@@ -113,7 +113,7 @@ If you have added new messages to your program:
 
 ## For examples:
 
-- Look at an example [application](https://github.com/mylukin/easy-i18n/tree/master/easyi18n/example).
+- Look at an example [application](https://github.com/mylukin/easy-i18n/tree/master/example).
 
 # Thanks:
 
