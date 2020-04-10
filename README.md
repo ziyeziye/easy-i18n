@@ -68,17 +68,16 @@ easyi18n -h
 
 Use `easyi18n extract . ./locales/en.json` to extract all i18n.Sprintf function literals in Go source files to a message file for translation.
 
+`./locales/en.json`
 ```json
-// ./locales/en.json
 {
-  "hello world!": "hello world!",
-  "hello %s!": "hello %s!",
-  "%s has %d apple.": "%s has %d apple.",
   "%s has %d cat.": "%s has %d cat.",
   "%s has %d cats.": "%s has %d cats.",
   "%s have %d apples.": "%s have %d apples.",
   "%s have an apple.": "%s have an apple.",
-  "%s have two apples.": "%s have two apples."
+  "%s have two apples.": "%s have two apples.",
+  "hello %s!": "hello %s!",
+  "hello world!": "hello world!"
 }
 ```
 
@@ -88,17 +87,17 @@ Use `easyi18n extract . ./locales/en.json` to extract all i18n.Sprintf function 
 2. Run `easyi18n update ./locales/en.json ./locales/zh-Hans.json` to populate `zh-Hans.json` with the mesages to be translated.
 
 	`./locales/zh-Hans.json`
-    ```json
+	```json
 	{
-		"%s has %d cat.": "%s has %d cat.",
-		"%s has %d cats.": "%s has %d cats.",
-		"%s have %d apples.": "%s have %d apples.",
-		"%s have an apple.": "%s have an apple.",
-		"%s have two apples.": "%s have two apples.",
-		"hello %s!": "hello %s!",
-		"hello world!": "hello world!"
+	  "%s has %d cat.": "%s有%d只猫。",
+	  "%s has %d cats.": "%s有%d只猫。",
+	  "%s have %d apples.": "%s有%d个苹果。",
+	  "%s have an apple.": "%s有一个苹果。",
+	  "%s have two apples.": "%s有两个苹果。",
+	  "hello %s!": "你好%s！",
+	  "hello world!": "你好世界！"
 	}
-    ```
+	```
 3. After `zh-Hans.json` has been translated, run `easyi18n generate ./locales ./catalog.go --pkg=main`.
 
 4. Make sure that --pkg=main your package name, automatically load catalog.go file.
