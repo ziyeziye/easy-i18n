@@ -59,9 +59,9 @@ The easyi18n command manages message files used by the i18n package.
 go get -u github.com/mylukin/easy-i18n/easyi18n
 easyi18n -h
 
-	update, u    merge translations and generate catalog
-	extract, e   extracts strings to be translated from code
-	generate, g  generates code to insert translated messages
+  update, u    merge translations and generate catalog
+  extract, e   extracts strings to be translated from code
+  generate, g  generates code to insert translated messages
 ```
 
 ### Extracting messages
