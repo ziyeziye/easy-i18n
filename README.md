@@ -87,18 +87,17 @@ Use `easyi18n extract . ./locales/en.json` to extract all i18n.Sprintf function 
 1. Create an empty message file for the language that you want to add (e.g. `zh-Hans.json`).
 2. Run `easyi18n update ./locales/en.json ./locales/zh-Hans.json` to populate `zh-Hans.json` with the mesages to be translated.
 
+	`./locales/zh-Hans.json`
     ```json
-    // ./locales/zh-Hans.json
-    {
-    "hello world!": "hello world!",
-    "hello %s!": "hello %s!",
-    "%s has %d apple.": "%s has %d apple.",
-    "%s has %d cat.": "%s has %d cat.",
-    "%s has %d cats.": "%s has %d cats.",
-    "%s have %d apples.": "%s have %d apples.",
-    "%s have an apple.": "%s have an apple.",
-    "%s have two apples.": "%s have two apples."
-    }
+	{
+		"%s has %d cat.": "%s has %d cat.",
+		"%s has %d cats.": "%s has %d cats.",
+		"%s have %d apples.": "%s have %d apples.",
+		"%s have an apple.": "%s have an apple.",
+		"%s have two apples.": "%s have two apples.",
+		"hello %s!": "hello %s!",
+		"hello world!": "hello world!"
+	}
     ```
 3. After `zh-Hans.json` has been translated, run `easyi18n generate ./locales ./catalog.go --pkg=main`.
 
@@ -113,3 +112,17 @@ If you have added new messages to your program:
 3. Translate all the messages in the `./locales/new-language.json` files.
 4. Run `easyi18n generate ./locales ./catalog.go --pkg=main` to merge the translated messages into the go files.
 
+## For examples:
+
+- Look at an example [application](https://github.com/mylukin/easy-i18n/tree/master/easyi18n/example).
+
+# Thanks:
+
+- https://github.com/nicksnyder/go-i18n
+- https://github.com/qingstor/qsctl
+- https://github.com/golang/text
+- https://xuanwo.io/2019/12/11/golang-i18n/
+
+## License
+
+Easy-i18n is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
