@@ -46,7 +46,6 @@ func Extract(paths []string, outFile string) error {
 
 			fmt.Printf("Extract %+v ...\n", path)
 			i18NPackName := i18nPackageName(file)
-			// fmt.Printf("i18NPackName %T %+[1]v\n", i18NPackName)
 			// ast.Print(fset, file)
 			ast.Inspect(file, func(n ast.Node) bool {
 				switch v := n.(type) {
@@ -57,11 +56,11 @@ func Extract(paths []string, outFile string) error {
 							packName = pack.Name
 						}
 						funcName := fn.Sel.Name
-						// 包名必须相等
+						// Package name must be equal
 						if i18NPackName == packName {
-							// 函数名必须相等
+							// Function name must be equal
 							if funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
-								// 找到字符串
+								// Find the string to be translated
 								if str, ok := v.Args[0].(*ast.BasicLit); ok {
 									id := strings.Trim(str.Value, `"`)
 									if _, ok := messages[id]; !ok {
@@ -70,7 +69,7 @@ func Extract(paths []string, outFile string) error {
 								}
 							}
 							if funcName == "Plural" {
-								// 找到字符串
+								// Find the string to be translated
 								for i := 0; i < len(v.Args); {
 									if i++; i >= len(v.Args) {
 										break

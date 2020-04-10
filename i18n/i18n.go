@@ -19,7 +19,7 @@ import (
 
 var p *message.Printer
 
-// PluralRule is rule
+// PluralRule 复数规则
 type PluralRule struct {
 	Pos   int
 	Expr  string
@@ -27,11 +27,11 @@ type PluralRule struct {
 	Text  string
 }
 
-// Message is message
+// Message 翻译消息体
 type Message map[string]string
 
 func init() {
-	// init use English
+	// default use English
 	p = message.NewPrinter(language.English)
 }
 
@@ -46,7 +46,7 @@ func Printf(format string, args ...interface{}) {
 	p.Printf(format, args...)
 }
 
-// Sprintf formats according to a format specifier and returns the resulting string.
+// Sprintf is like fmt.Sprintf, but using language-specific formatting.
 func Sprintf(format string, args ...interface{}) string {
 	format, args = preArgs(format, args...)
 	return p.Sprintf(format, args...)
@@ -59,7 +59,7 @@ func Fprintf(w io.Writer, key message.Reference, a ...interface{}) (n int, err e
 	return p.Fprintf(w, key, args...)
 }
 
-// preArgs
+// Preprocessing parameters in plural form
 func preArgs(format string, args ...interface{}) (string, []interface{}) {
 	length := len(args)
 	if length > 0 {
@@ -70,6 +70,7 @@ func preArgs(format string, args ...interface{}) (string, []interface{}) {
 			// parse rule
 			for _, rule := range rules {
 				curPosVal := args[rule.Pos-1].(int)
+				// Support comparison expression
 				if (rule.Expr == "=" && curPosVal == rule.Value) || (rule.Expr == ">" && curPosVal > rule.Value) {
 					format = rule.Text
 					break
@@ -81,7 +82,7 @@ func preArgs(format string, args ...interface{}) (string, []interface{}) {
 	return format, args
 }
 
-// Plural is parse to rule
+// Plural is Plural function
 func Plural(cases ...interface{}) []PluralRule {
 	rules := []PluralRule{}
 	// %[1]d=1, %[1]d>1

@@ -2,7 +2,7 @@
 
 Easy-i18n is a Go package and a command that helps you translate Go programs into multiple languages.
 
-- Supports [pluralized strings](http://cldr.unicode.org/index/cldr-spec/plural-rules) for all 200+ languages in the [Unicode Common Locale Data Repository (CLDR)](http://www.unicode.org/cldr/charts/28/supplemental/language_plural_rules.html).
+- Supports pluralized strings with =x or >x expression.
 - Supports strings with similar to [fmt.Sprintf](https://golang.org/pkg/fmt/) format syntax.
 - Supports message files of any format (e.g. JSON, TOML, YAML).
 
@@ -58,11 +58,15 @@ The easyi18n command manages message files used by the i18n package.
 ```
 go get -u github.com/mylukin/easy-i18n/easyi18n
 easyi18n -h
+
+	update, u    merge translations and generate catalog
+	extract, e   extracts strings to be translated from code
+	generate, g  generates code to insert translated messages
 ```
 
 ### Extracting messages
 
-Use `easyi18n extract` to extract all i18n.Sprintf function literals in Go source files to a message file for translation.
+Use `easyi18n extract . ./locales/en.json` to extract all i18n.Sprintf function literals in Go source files to a message file for translation.
 
 ```json
 // ./locales/en.json
@@ -96,4 +100,16 @@ Use `easyi18n extract` to extract all i18n.Sprintf function literals in Go sourc
     "%s have two apples.": "%s have two apples."
     }
     ```
-3. After `zh-Hans.json` has been translated, run `easyi18n generate ./locales ./catalog.go --pkg main`.
+3. After `zh-Hans.json` has been translated, run `easyi18n generate ./locales ./catalog.go --pkg=main`.
+
+4. Make sure that --pkg=main your package name, automatically load catalog.go file.
+
+### Translating new messages
+
+If you have added new messages to your program:
+
+1. Run `easyi18n extract` to update `./locales/en.json` with the new messages.
+2. Run `easyi18n update ./locales/en.json` to generate updated `./locales/new-language.json` files.
+3. Translate all the messages in the `./locales/new-language.json` files.
+4. Run `easyi18n generate ./locales ./catalog.go --pkg=main` to merge the translated messages into the go files.
+

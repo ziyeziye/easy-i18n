@@ -1,5 +1,8 @@
 package main
 
+//go:generate go run main.go extract . ./locales/en.json
+//go:generate go run main.go generate ./locales ./catalog.go --pkg=main
+
 import (
 	"fmt"
 	"log"
