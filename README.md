@@ -115,7 +115,7 @@ If you have added new messages to your program:
 
 - Look at an example [application](https://github.com/mylukin/easy-i18n/tree/master/example).
 
-# Thanks:
+## Thanks:
 
 - https://xuanwo.io/2019/12/11/golang-i18n/
 - https://github.com/qingstor/qsctl/tree/master/pkg/i18n
