@@ -117,10 +117,10 @@ If you have added new messages to your program:
 
 # Thanks:
 
-- https://github.com/nicksnyder/go-i18n
+- https://xuanwo.io/2019/12/11/golang-i18n/
 - https://github.com/qingstor/qsctl
 - https://github.com/golang/text
-- https://xuanwo.io/2019/12/11/golang-i18n/
+- https://github.com/nicksnyder/go-i18n
 
 ## License
 
