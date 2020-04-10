@@ -19,7 +19,7 @@ import (
 
 var p *message.Printer
 
-// PluralRule 复数规则
+// PluralRule is Plural rule
 type PluralRule struct {
 	Pos   int
 	Expr  string
@@ -27,7 +27,7 @@ type PluralRule struct {
 	Text  string
 }
 
-// Message 翻译消息体
+// Message is translation message
 type Message map[string]string
 
 func init() {
