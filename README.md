@@ -23,7 +23,7 @@ import (
 
 func main() {
 
-	i18n.SetLang(language.English)
+	i18n.SetLang(language.SimplifiedChinese)
 
 	i18n.Printf("hello world!")
 	fmt.Println()
@@ -33,7 +33,7 @@ func main() {
 	i18n.Printf("hello %s!", name)
 	fmt.Println()
 
-	i18n.Printf("%s has %d apple.", name, 1)
+	i18n.Printf("%s has %d cat.", name, 1)
 	fmt.Println()
 
 	i18n.Printf("%s has %d cat.", name, 2, i18n.Plural(
