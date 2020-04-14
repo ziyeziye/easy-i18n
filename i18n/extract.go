@@ -44,7 +44,7 @@ func Extract(paths []string, outFile string) error {
 				return err
 			}
 
-			fmt.Printf("Extract %+v ...\n", path)
+			// fmt.Printf("Extract %+v ...\n", path)
 			i18NPackName := i18nPackageName(file)
 			// ast.Print(fset, file)
 			ast.Inspect(file, func(n ast.Node) bool {
@@ -60,6 +60,7 @@ func Extract(paths []string, outFile string) error {
 						if i18NPackName == packName {
 							// Function name must be equal
 							if funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
+								fmt.Printf("Extract %+v %v.%v ...\n", path, packName, funcName)
 								// Find the string to be translated
 								if str, ok := v.Args[0].(*ast.BasicLit); ok {
 									id := strings.Trim(str.Value, `"`)
