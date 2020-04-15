@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -44,7 +45,10 @@ func Generate(pkgName string, paths []string, outFile string) error {
 			return err
 		}
 	}
-
+	err = os.MkdirAll(path.Dir(outFile), os.ModePerm)
+	if err != nil {
+		return err
+	}
 	err = i18nTmpl.Execute(goFile, struct {
 		Data      map[string]*Message
 		BackQuote string

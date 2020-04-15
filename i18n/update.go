@@ -3,6 +3,8 @@ package i18n
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
+	"path"
 	"strings"
 )
 
@@ -47,7 +49,12 @@ func Update(srcFile string, destFile string) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(destFile, content, 0664)
+	err = os.MkdirAll(path.Dir(destFile), os.ModePerm)
+	if err != nil {
+		return err
+	}
+
+	err = ioutil.WriteFile(destFile, content, os.ModePerm)
 	if err != nil {
 		return nil
 	}
