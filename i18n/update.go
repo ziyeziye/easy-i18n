@@ -59,5 +59,7 @@ func Update(srcFile string, destFile string) error {
 		return nil
 	}
 
+	fmt.Printf("Update %+v ...\n", destFile)
+
 	return nil
 }

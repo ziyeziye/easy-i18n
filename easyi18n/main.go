@@ -1,6 +1,8 @@
 package main
 
 //go:generate go run main.go extract . ./locales/en.json
+//go:generate go run main.go update ./locales/en.json ./locales/zh-Hans.json
+//go:generate go run main.go update ./locales/en.json ./locales/zh-Hant.json
 //go:generate go run main.go generate ./locales ./catalog.go --pkg=main
 
 import (
