@@ -7,6 +7,7 @@ import (
 	"go/token"
 	"io/ioutil"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 )
@@ -112,11 +113,15 @@ func Extract(paths []string, outFile string) error {
 	if err != nil {
 		return err
 	}
-
-	err = ioutil.WriteFile(outFile, content, 0664)
+	err = os.MkdirAll(path.Dir(outFile), os.ModePerm)
 	if err != nil {
-		return nil
+		return err
 	}
+	err = ioutil.WriteFile(outFile, content, os.ModePerm)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("Extract to %v ...\n", outFile)
 	return nil
 }
 
