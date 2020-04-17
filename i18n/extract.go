@@ -78,7 +78,7 @@ func Extract(paths []string, outFile string) error {
 										break
 									}
 									if str, ok := v.Args[i].(*ast.BasicLit); ok {
-										id := strings.Trim(str.Value, `"`)
+										id := strings.Trim(str.Value, "\"`")
 										if _, ok := messages[id]; !ok {
 											messages[id] = id
 										}
