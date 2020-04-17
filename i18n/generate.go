@@ -6,6 +6,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"text/template"
 )
@@ -69,6 +70,9 @@ var funcs = template.FuncMap{
 		lang = strings.ToUpper(lang[:1]) + lang[1:]
 		return lang
 	},
+	"quote": func(text string) string {
+		return strconv.Quote(text)
+	},
 }
 
 var i18nTmpl = template.Must(template.New("i18n").Funcs(funcs).Parse(`package {{.Package}}
@@ -89,7 +93,7 @@ func init() {
 // init{{ funcName $k }} will init {{ $k }} support.
 func init{{ funcName $k }}(tag language.Tag) {
 	{{- range $k, $v := $v }}
-	message.SetString(tag, "{{$k}}", "{{$v}}")
+	message.SetString(tag, "{{quote $k}}", "{{quote $v}}")
 	{{- end }}
 }
 {{- end }}
