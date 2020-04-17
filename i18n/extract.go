@@ -64,7 +64,7 @@ func Extract(paths []string, outFile string) error {
 								fmt.Printf("Extract %+v %v.%v ...\n", path, packName, funcName)
 								// Find the string to be translated
 								if str, ok := v.Args[0].(*ast.BasicLit); ok {
-									id := strings.Trim(str.Value, `"`)
+									id := strings.Trim(str.Value, "\"`")
 									if _, ok := messages[id]; !ok {
 										messages[id] = id
 									}
