@@ -93,7 +93,7 @@ func init() {
 // init{{ funcName $k }} will init {{ $k }} support.
 func init{{ funcName $k }}(tag language.Tag) {
 	{{- range $k, $v := $v }}
-	message.SetString(tag, "{{quote $k}}", "{{quote $v}}")
+	message.SetString(tag, {{quote $k}}, {{quote $v}})
 	{{- end }}
 }
 {{- end }}
