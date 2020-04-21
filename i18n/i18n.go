@@ -153,6 +153,7 @@ func marshal(v interface{}, format string) ([]byte, error) {
 		buffer := &bytes.Buffer{}
 		encoder := json.NewEncoder(buffer)
 		encoder.SetEscapeHTML(false)
+		encoder.SetIndent("", "  ")
 		err := encoder.Encode(v)
 		return buffer.Bytes(), err
 	case "toml":
