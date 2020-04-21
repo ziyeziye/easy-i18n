@@ -150,7 +150,11 @@ func unmarshal(path string) (*Message, error) {
 func marshal(v interface{}, format string) ([]byte, error) {
 	switch format {
 	case "json":
-		return json.MarshalIndent(v, "", "  ")
+		buffer := &bytes.Buffer{}
+		encoder := json.NewEncoder(buffer)
+		encoder.SetEscapeHTML(false)
+		err := encoder.Encode(v)
+		return buffer.Bytes(), err
 	case "toml":
 		var buf bytes.Buffer
 		enc := toml.NewEncoder(&buf)
