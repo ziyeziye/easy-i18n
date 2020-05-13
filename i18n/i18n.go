@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/BurntSushi/toml"
 	"golang.org/x/text/language"
@@ -18,6 +19,7 @@ import (
 )
 
 var p *message.Printer
+var lock sync.Mutex
 
 // PluralRule is Plural rule
 type PluralRule struct {
@@ -31,12 +33,16 @@ type PluralRule struct {
 type Message map[string]string
 
 func init() {
+	lock.Lock()
+	defer lock.Unlock()
 	// default use English
 	p = message.NewPrinter(language.English)
 }
 
 // SetLang set language
 func SetLang(lang language.Tag) {
+	lock.Lock()
+	defer lock.Unlock()
 	p = message.NewPrinter(lang)
 }
 
