@@ -2,13 +2,14 @@ package main
 
 //go:generate easyi18n extract . ./locales/en.json
 //go:generate easyi18n update ./locales/en.json ./locales/zh-Hans.json
-//go:generate easyi18n generate ./locales ./catalog.go --pkg=main
+//go:generate easyi18n generate --pkg=catalog ./locales ./catalog/catalog.go
 //go:generate go build -o example
 
 import (
 	"fmt"
 	"os"
 
+	_ "github.com/mylukin/easy-i18n/example/catalog"
 	"github.com/mylukin/easy-i18n/i18n"
 	"golang.org/x/text/language"
 )

@@ -17,6 +17,10 @@ func Generate(pkgName string, paths []string, outFile string) error {
 		paths = []string{"."}
 	}
 
+	if err := os.MkdirAll(path.Dir(outFile), os.ModePerm); err != nil {
+		return err
+	}
+
 	goFile, err := os.Create(outFile)
 	if err != nil {
 		log.Fatal(err)
@@ -46,10 +50,7 @@ func Generate(pkgName string, paths []string, outFile string) error {
 			return err
 		}
 	}
-	err = os.MkdirAll(path.Dir(outFile), os.ModePerm)
-	if err != nil {
-		return err
-	}
+
 	err = i18nTmpl.Execute(goFile, struct {
 		Data      map[string]*Message
 		BackQuote string

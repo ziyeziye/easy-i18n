@@ -17,6 +17,7 @@ import (
 	"fmt"
 	"os"
 
+	_ "github.com/mylukin/easy-i18n/example/catalog"
 	"github.com/mylukin/easy-i18n/i18n"
 	"golang.org/x/text/language"
 )
@@ -98,9 +99,9 @@ Use `easyi18n extract . ./locales/en.json` to extract all i18n.Sprintf function 
 	  "hello world!": "你好世界！"
 	}
 	```
-3. After `zh-Hans.json` has been translated, run `easyi18n generate ./locales ./catalog.go --pkg=main`.
+3. After `zh-Hans.json` has been translated, run `easyi18n generate --pkg=catalog ./locales ./catalog/catalog.go`.
 
-4. Make sure that --pkg=main your package name, automatically load catalog.go file.
+4. Import `catalog` package in main.go, example: `import _ "github.com/mylukin/easy-i18n/example/catalog"` 
 
 ### Translating new messages
 
@@ -109,7 +110,7 @@ If you have added new messages to your program:
 1. Run `easyi18n extract` to update `./locales/en.json` with the new messages.
 2. Run `easyi18n update ./locales/en.json` to generate updated `./locales/new-language.json` files.
 3. Translate all the messages in the `./locales/new-language.json` files.
-4. Run `easyi18n generate ./locales ./catalog.go --pkg=main` to merge the translated messages into the go files.
+4. Run `easyi18n generate --pkg=catalog ./locales ./catalog/catalog.go` to merge the translated messages into the go files.
 
 ## For examples:
 

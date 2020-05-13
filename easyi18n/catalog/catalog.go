@@ -1,4 +1,4 @@
-package main
+package catalog
 
 import (
 	"golang.org/x/text/language"

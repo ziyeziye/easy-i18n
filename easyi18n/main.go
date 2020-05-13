@@ -3,7 +3,7 @@ package main
 //go:generate go run main.go extract . ./locales/en.json
 //go:generate go run main.go update ./locales/en.json ./locales/zh-Hans.json
 //go:generate go run main.go update ./locales/en.json ./locales/zh-Hant.json
-//go:generate go run main.go generate ./locales ./catalog.go --pkg=main
+//go:generate go run main.go generate --pkg=catalog ./locales ./catalog/catalog.go
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 	"os"
 
 	"github.com/Xuanwo/go-locale"
+	_ "github.com/mylukin/easy-i18n/easyi18n/catalog"
 	"github.com/mylukin/easy-i18n/i18n"
 	"github.com/urfave/cli/v2"
 )
@@ -83,7 +84,7 @@ func main() {
 				Flags: []cli.Flag{
 					&cli.StringFlag{
 						Name:  "pkg",
-						Value: "main",
+						Value: "catalog",
 						Usage: i18n.Sprintf(`generated go file package name`),
 					},
 				},
@@ -94,7 +95,7 @@ func main() {
 					}
 					outFile := c.Args().Get(1)
 					if len(outFile) == 0 {
-						outFile = "./catalog.go"
+						outFile = "./catalog/catalog.go"
 					}
 					pkgName := c.String("pkg")
 					err := i18n.Generate(
