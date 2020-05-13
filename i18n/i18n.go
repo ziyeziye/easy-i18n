@@ -33,8 +33,6 @@ type PluralRule struct {
 type Message map[string]string
 
 func init() {
-	lock.Lock()
-	defer lock.Unlock()
 	// default use English
 	p = message.NewPrinter(language.English)
 }
