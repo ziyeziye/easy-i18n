@@ -28,6 +28,13 @@ func Update(srcFile string, destFile string) error {
 	}
 
 	result := *dstMessages
+	// Delete untranslated lines
+	for key, value := range *dstMessages {
+		if key == value {
+			delete(result, key)
+		}
+	}
+	// Write new line
 	for key, value := range *srcMessages {
 		if _, ok := result[key]; !ok {
 			result[key] = value
