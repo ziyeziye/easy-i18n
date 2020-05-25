@@ -27,9 +27,10 @@ func SetLang(lang interface{}) {
 	p = NewPrinter(lang)
 }
 
-// translate
-func T(format string, args ...interface{}) string {
-	return p.Sprintf(format, args...)
+// M is message
+func M(format string, args ...interface{}) string {
+	format, args = preArgs(format, args...)
+	return Sprintf(format, args...)
 }
 
 // Printf is like fmt.Printf, but using language-specific formatting.
