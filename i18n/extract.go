@@ -77,20 +77,16 @@ func Extract(packName string, paths []string, outFile string) error {
 						namePos := fset.Position(fn.Sel.NamePos)
 						// Package name must be equal
 						if len(packName) > 0 && i18NPackName == packName {
-							if funcName == "T" {
+							// Function name must be equal
+							if funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
 								// Find the string to be translated
-								if str, ok := v.Args[1].(*ast.BasicLit); ok {
+								if str, ok := v.Args[0].(*ast.BasicLit); ok {
 									id := strings.Trim(str.Value, "\"`")
 									if _, ok := messages[id]; !ok {
 										messages[id] = id
 									}
 									fmt.Printf("Extract %+v %v.%v => %s\n", namePos, packName, funcName, id)
-								}
-							}
-							// Function name must be equal
-							if funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
-								// Find the string to be translated
-								if str, ok := v.Args[0].(*ast.BasicLit); ok {
+								} else if str, ok := v.Args[1].(*ast.BasicLit); ok {
 									id := strings.Trim(str.Value, "\"`")
 									if _, ok := messages[id]; !ok {
 										messages[id] = id
