@@ -16,8 +16,11 @@ import (
 
 func main() {
 
+	p := i18n.NewPrinter(language.SimplifiedChinese)
+	p.Printf(`hello world.`)
+	fmt.Println()
+
 	i18n.SetLang(language.SimplifiedChinese)
-	defer i18n.Close()
 
 	i18n.Printf(`hello world!`)
 	fmt.Println()
@@ -42,4 +45,5 @@ func main() {
 		`%[2]d>2`, `%s have %d apples.`,
 	))
 	fmt.Println()
+
 }

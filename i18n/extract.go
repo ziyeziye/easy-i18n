@@ -47,14 +47,23 @@ func Extract(paths []string, outFile string) error {
 
 			// fmt.Printf("Extract %+v ...\n", path)
 			i18NPackName := i18nPackageName(file)
-			// ast.Print(fset, file)
+			//ast.Print(fset, file)
 			ast.Inspect(file, func(n ast.Node) bool {
 				switch v := n.(type) {
 				case *ast.CallExpr:
 					if fn, ok := v.Fun.(*ast.SelectorExpr); ok {
 						var packName string
 						if pack, ok := fn.X.(*ast.Ident); ok {
-							packName = pack.Name
+							if pack.Obj != nil {
+								vv := pack.Obj.Decl.(*ast.AssignStmt).Rhs[0].(*ast.CallExpr)
+								if vfn, ok := vv.Fun.(*ast.SelectorExpr); ok {
+									if vpack, ok := vfn.X.(*ast.Ident); ok {
+										packName = vpack.Name
+									}
+								}
+							} else {
+								packName = pack.Name
+							}
 						}
 						funcName := fn.Sel.Name
 						namePos := fset.Position(fn.Sel.NamePos)

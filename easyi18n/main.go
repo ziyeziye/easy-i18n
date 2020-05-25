@@ -22,7 +22,6 @@ func main() {
 
 	// Set Language
 	i18n.SetLang(tag)
-	defer i18n.Close()
 
 	appName := "easyi18n"
 

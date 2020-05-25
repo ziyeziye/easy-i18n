@@ -1,20 +1,17 @@
 package i18n
 
 import (
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 	"io"
 	"regexp"
 	"strconv"
 	"strings"
-	"sync"
-
-	"golang.org/x/text/language"
-	"golang.org/x/text/message"
 )
 
 // Printer is printer
 type Printer struct {
-	Printer *message.Printer
-	sync.Mutex
+	pt *message.Printer
 }
 
 // PluralRule is Plural rule
@@ -28,13 +25,8 @@ type PluralRule struct {
 // Message is translation message
 type Message map[string]string
 
-var ppFree = sync.Pool{
-	New: func() interface{} { return new(Printer) },
-}
-
 // newPrinter is new printer
 func NewPrinter(lang interface{}) *Printer {
-	p := ppFree.Get().(*Printer)
 	var langTag language.Tag
 	switch _lang := lang.(type) {
 	case language.Tag:
@@ -42,32 +34,28 @@ func NewPrinter(lang interface{}) *Printer {
 	case string:
 		langTag = language.Make(_lang)
 	}
-	p.Printer = message.NewPrinter(langTag)
-	return p
-}
-
-// free saves used printer structs in ppFree;
-func (p *Printer) Close() {
-	ppFree.Put(p)
+	return &Printer{
+		pt: message.NewPrinter(langTag),
+	}
 }
 
 // Printf is like fmt.Printf, but using language-specific formatting.
 func (p *Printer) Printf(format string, args ...interface{}) {
 	format, args = preArgs(format, args...)
-	p.Printer.Printf(format, args...)
+	p.pt.Printf(format, args...)
 }
 
 // Sprintf is like fmt.Sprintf, but using language-specific formatting.
 func (p *Printer) Sprintf(format string, args ...interface{}) string {
 	format, args = preArgs(format, args...)
-	return p.Printer.Sprintf(format, args...)
+	return p.pt.Sprintf(format, args...)
 }
 
 // Fprintf is like fmt.Fprintf, but using language-specific formatting.
 func (p *Printer) Fprintf(w io.Writer, key message.Reference, a ...interface{}) (n int, err error) {
 	format, args := preArgs(key.(string), a...)
 	key = message.Reference(format)
-	return p.Printer.Fprintf(w, key, args...)
+	return p.pt.Fprintf(w, key, args...)
 }
 
 // Preprocessing parameters in plural form

@@ -19,6 +19,7 @@ func initEn(tag language.Tag) {
 	message.SetString(tag, "%s have two apples.", "%s have two apples.")
 	message.SetString(tag, "hello %s!", "hello %s!")
 	message.SetString(tag, "hello world!", "hello world!")
+	message.SetString(tag, "hello world.", "hello world.")
 }
 // initZhHans will init zh-Hans support.
 func initZhHans(tag language.Tag) {
@@ -27,6 +28,7 @@ func initZhHans(tag language.Tag) {
 	message.SetString(tag, "%s have %d apples.", "%s有%d个苹果。")
 	message.SetString(tag, "%s have an apple.", "%s有一个苹果。")
 	message.SetString(tag, "%s have two apples.", "%s有两个苹果。")
-	message.SetString(tag, "hello %s!", "你好%s！")
-	message.SetString(tag, "hello world!", "你好世界！")
+	message.SetString(tag, "hello %s!", "你好，%s！")
+	message.SetString(tag, "hello world!", "你好，世界！")
+	message.SetString(tag, "hello world.", "你好，世界。")
 }

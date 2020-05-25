@@ -10,21 +10,14 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
-	"golang.org/x/text/language"
 	"golang.org/x/text/message"
 	"gopkg.in/yaml.v2"
 )
 
 var p *Printer
 
-func init() {
-	// default use English
-	p = NewPrinter(language.English)
-}
-
 // SetLang set language
 func SetLang(lang interface{}) {
-	p.Close()
 	p = NewPrinter(lang)
 }
 
@@ -41,11 +34,6 @@ func Sprintf(format string, args ...interface{}) string {
 // Fprintf is like fmt.Fprintf, but using language-specific formatting.
 func Fprintf(w io.Writer, key message.Reference, args ...interface{}) (n int, err error) {
 	return p.Fprintf(w, key, args...)
-}
-
-// Close is free resource
-func Close() {
-	p.Close()
 }
 
 func unmarshal(path string) (*Message, error) {
