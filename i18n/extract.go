@@ -13,7 +13,7 @@ import (
 )
 
 // Extract messages
-func Extract(paths []string, outFile string) error {
+func Extract(packName string, paths []string, outFile string) error {
 	if len(paths) == 0 {
 		paths = []string{"."}
 	}
@@ -47,6 +47,9 @@ func Extract(paths []string, outFile string) error {
 
 			// fmt.Printf("Extract %+v ...\n", path)
 			i18NPackName := i18nPackageName(file)
+			if packName != "" && packName != "i18n" {
+				i18NPackName = packName
+			}
 			//if strings.HasSuffix(path, "helpers.go") {
 			//	ast.Print(fset, file)
 			//}

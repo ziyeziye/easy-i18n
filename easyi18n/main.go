@@ -61,6 +61,13 @@ func main() {
 				Aliases:   []string{"e"},
 				Usage:     i18n.Sprintf(`extracts strings to be translated from code`),
 				UsageText: i18n.Sprintf(`%s extract [path] [outfile]`, appName),
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:  "pkg",
+						Value: "i18n",
+						Usage: i18n.Sprintf(`package name`),
+					},
+				},
 				Action: func(c *cli.Context) error {
 					path := c.Args().Get(0)
 					if len(path) == 0 {
@@ -70,7 +77,8 @@ func main() {
 					if len(outFile) == 0 {
 						outFile = "./locales/en.json"
 					}
-					err := i18n.Extract([]string{
+					pkgName := c.String("pkg")
+					err := i18n.Extract(pkgName, []string{
 						path,
 					}, outFile)
 					return err

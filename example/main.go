@@ -16,8 +16,9 @@ import (
 
 func main() {
 
-	c := i18n.NewPrinter(language.SimplifiedChinese)
-	fmt.Println(i18n.T(c, `hello world.`))
+	p := i18n.NewPrinter(language.SimplifiedChinese)
+	p.Printf(`hello world.`)
+	fmt.Println()
 
 	i18n.SetLang(language.SimplifiedChinese)
 
