@@ -26,7 +26,7 @@ type PluralRule struct {
 // Message is translation message
 type Message map[string]string
 
-// newPrinter is new printer
+// NewPrinter is new printer
 func NewPrinter(lang interface{}) *Printer {
 	var langTag language.Tag
 	switch _lang := lang.(type) {
