@@ -11,7 +11,8 @@ import (
 
 // Printer is printer
 type Printer struct {
-	pt *message.Printer
+	lang string
+	pt   *message.Printer
 }
 
 // PluralRule is Plural rule
@@ -35,7 +36,8 @@ func NewPrinter(lang interface{}) *Printer {
 		langTag = language.Make(_lang)
 	}
 	return &Printer{
-		pt: message.NewPrinter(langTag),
+		lang: langTag.String(),
+		pt:   message.NewPrinter(langTag),
 	}
 }
 
