@@ -33,9 +33,16 @@ var ppFree = sync.Pool{
 }
 
 // newPrinter is new printer
-func NewPrinter(lang language.Tag) *Printer {
+func NewPrinter(lang interface{}) *Printer {
 	p := ppFree.Get().(*Printer)
-	p.Printer = message.NewPrinter(lang)
+	var langTag language.Tag
+	switch _lang := lang.(type) {
+	case language.Tag:
+		langTag = _lang
+	case string:
+		langTag = language.Make(_lang)
+	}
+	p.Printer = message.NewPrinter(langTag)
 	return p
 }
 

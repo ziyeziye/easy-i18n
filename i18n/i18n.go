@@ -23,7 +23,7 @@ func init() {
 }
 
 // SetLang set language
-func SetLang(lang language.Tag) {
+func SetLang(lang interface{}) {
 	p.Close()
 	p = NewPrinter(lang)
 }
