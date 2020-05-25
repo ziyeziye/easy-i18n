@@ -4,17 +4,23 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/BurntSushi/toml"
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
+	"gopkg.in/yaml.v2"
 	"io"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
-
-	"github.com/BurntSushi/toml"
-	"golang.org/x/text/message"
-	"gopkg.in/yaml.v2"
 )
 
 var p *Printer
+
+// init
+func init() {
+	// default language english
+	p = NewPrinter(language.English)
+}
 
 // SetLang set language
 func SetLang(lang interface{}) {
