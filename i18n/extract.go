@@ -47,7 +47,7 @@ func Extract(paths []string, outFile string) error {
 
 			// fmt.Printf("Extract %+v ...\n", path)
 			i18NPackName := i18nPackageName(file)
-			//if strings.HasSuffix(path, "start.go") {
+			//if strings.HasSuffix(path, "helpers.go") {
 			//	ast.Print(fset, file)
 			//}
 			ast.Inspect(file, func(n ast.Node) bool {
