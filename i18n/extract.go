@@ -47,7 +47,9 @@ func Extract(paths []string, outFile string) error {
 
 			// fmt.Printf("Extract %+v ...\n", path)
 			i18NPackName := i18nPackageName(file)
-			//ast.Print(fset, file)
+			//if strings.HasSuffix(path, "start.go") {
+			//	ast.Print(fset, file)
+			//}
 			ast.Inspect(file, func(n ast.Node) bool {
 				switch v := n.(type) {
 				case *ast.CallExpr:
@@ -55,10 +57,13 @@ func Extract(paths []string, outFile string) error {
 						var packName string
 						if pack, ok := fn.X.(*ast.Ident); ok {
 							if pack.Obj != nil {
-								vv := pack.Obj.Decl.(*ast.AssignStmt).Rhs[0].(*ast.CallExpr)
-								if vfn, ok := vv.Fun.(*ast.SelectorExpr); ok {
-									if vpack, ok := vfn.X.(*ast.Ident); ok {
-										packName = vpack.Name
+								if as, ok := pack.Obj.Decl.(*ast.AssignStmt); ok {
+									if vv, ok := as.Rhs[0].(*ast.CallExpr); ok {
+										if vfn, ok := vv.Fun.(*ast.SelectorExpr); ok {
+											if vpack, ok := vfn.X.(*ast.Ident); ok {
+												packName = vpack.Name
+											}
+										}
 									}
 								}
 							} else {
@@ -70,7 +75,7 @@ func Extract(paths []string, outFile string) error {
 						// Package name must be equal
 						if len(packName) > 0 && i18NPackName == packName {
 							// Function name must be equal
-							if funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
+							if funcName == "T" || funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
 								fmt.Printf("Extract %+v %v.%v ...\n", namePos, packName, funcName)
 								// Find the string to be translated
 								if str, ok := v.Args[0].(*ast.BasicLit); ok {
