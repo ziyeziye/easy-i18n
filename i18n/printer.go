@@ -28,18 +28,20 @@ type PluralRule struct {
 // Message is translation message
 type Message map[string]string
 
-// NewPrinter is new printer
-func NewPrinter(lang language.Tag) *Printer {
-	return &Printer{
-		Printer: message.NewPrinter(lang),
-	}
+var ppFree = sync.Pool{
+	New: func() interface{} { return new(Printer) },
 }
 
-// SetLang is set language
-func (p *Printer) SetLang(lang language.Tag) {
-	p.Lock()
-	defer p.Unlock()
+// newPrinter is new printer
+func NewPrinter(lang language.Tag) *Printer {
+	p := ppFree.Get().(*Printer)
 	p.Printer = message.NewPrinter(lang)
+	return p
+}
+
+// free saves used printer structs in ppFree;
+func (p *Printer) Close() {
+	ppFree.Put(p)
 }
 
 // Printf is like fmt.Printf, but using language-specific formatting.

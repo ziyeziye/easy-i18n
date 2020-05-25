@@ -7,16 +7,17 @@ package main
 
 import (
 	"fmt"
+	"golang.org/x/text/language"
 	"os"
 
 	_ "github.com/mylukin/easy-i18n/example/catalog"
 	"github.com/mylukin/easy-i18n/i18n"
-	"golang.org/x/text/language"
 )
 
 func main() {
 
 	i18n.SetLang(language.SimplifiedChinese)
+	defer i18n.Close()
 
 	i18n.Printf(`hello world!`)
 	fmt.Println()

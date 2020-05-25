@@ -24,7 +24,8 @@ func init() {
 
 // SetLang set language
 func SetLang(lang language.Tag) {
-	p.SetLang(lang)
+	p.Close()
+	p = NewPrinter(lang)
 }
 
 // Printf is like fmt.Printf, but using language-specific formatting.
@@ -40,6 +41,11 @@ func Sprintf(format string, args ...interface{}) string {
 // Fprintf is like fmt.Fprintf, but using language-specific formatting.
 func Fprintf(w io.Writer, key message.Reference, args ...interface{}) (n int, err error) {
 	return p.Fprintf(w, key, args...)
+}
+
+// Close is free resource
+func Close() {
+	p.Close()
 }
 
 func unmarshal(path string) (*Message, error) {
