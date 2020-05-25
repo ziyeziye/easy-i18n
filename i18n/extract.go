@@ -74,19 +74,28 @@ func Extract(paths []string, outFile string) error {
 						namePos := fset.Position(fn.Sel.NamePos)
 						// Package name must be equal
 						if len(packName) > 0 && i18NPackName == packName {
+							if funcName == "T" {
+								// Find the string to be translated
+								if str, ok := v.Args[1].(*ast.BasicLit); ok {
+									id := strings.Trim(str.Value, "\"`")
+									if _, ok := messages[id]; !ok {
+										messages[id] = id
+									}
+									fmt.Printf("Extract %+v %v.%v => %s\n", namePos, packName, funcName, id)
+								}
+							}
 							// Function name must be equal
-							if funcName == "M" || funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
-								fmt.Printf("Extract %+v %v.%v ...\n", namePos, packName, funcName)
+							if funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
 								// Find the string to be translated
 								if str, ok := v.Args[0].(*ast.BasicLit); ok {
 									id := strings.Trim(str.Value, "\"`")
 									if _, ok := messages[id]; !ok {
 										messages[id] = id
 									}
+									fmt.Printf("Extract %+v %v.%v => %s\n", namePos, packName, funcName, id)
 								}
 							}
 							if funcName == "Plural" {
-								fmt.Printf("Extract %+v %v.%v ...\n", namePos, packName, funcName)
 								// Find the string to be translated
 								for i := 0; i < len(v.Args); {
 									if i++; i >= len(v.Args) {
@@ -97,6 +106,7 @@ func Extract(paths []string, outFile string) error {
 										if _, ok := messages[id]; !ok {
 											messages[id] = id
 										}
+										fmt.Printf("Extract %+v %v.%v => %s\n", namePos, packName, funcName, id)
 									}
 									i++
 								}
