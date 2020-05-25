@@ -60,6 +60,11 @@ func (p *Printer) Fprintf(w io.Writer, key message.Reference, a ...interface{}) 
 	return p.pt.Fprintf(w, key, args...)
 }
 
+// String is lang
+func (p *Printer) String() string {
+	return p.lang
+}
+
 // Preprocessing parameters in plural form
 func preArgs(format string, args ...interface{}) (string, []interface{}) {
 	length := len(args)
