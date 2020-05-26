@@ -19,6 +19,7 @@ func Extract(packName string, paths []string, outFile string) error {
 	}
 	messages := map[string]string{}
 	for _, path := range paths {
+
 		if err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
@@ -47,12 +48,11 @@ func Extract(packName string, paths []string, outFile string) error {
 
 			// fmt.Printf("Extract %+v ...\n", path)
 			i18NPackName := i18nPackageName(file)
-			if packName != "" && packName != "i18n" {
+			if i18NPackName == "" {
 				i18NPackName = packName
 			}
-			//if strings.HasSuffix(path, "helpers.go") {
-			//	ast.Print(fset, file)
-			//}
+
+			//ast.Print(fset, file)
 			ast.Inspect(file, func(n ast.Node) bool {
 				switch v := n.(type) {
 				case *ast.CallExpr:
@@ -72,6 +72,7 @@ func Extract(packName string, paths []string, outFile string) error {
 							} else {
 								packName = pack.Name
 							}
+
 						}
 						funcName := fn.Sel.Name
 						namePos := fset.Position(fn.Sel.NamePos)
