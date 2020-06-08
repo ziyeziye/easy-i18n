@@ -42,6 +42,11 @@ func Fprintf(w io.Writer, key message.Reference, args ...interface{}) (n int, er
 	return p.Fprintf(w, key, args...)
 }
 
+// M is message
+func M(format string, args ...interface{}) string {
+	return p.Sprintf(format, args...)
+}
+
 func unmarshal(path string) (*Message, error) {
 	result := &Message{}
 	fileExt := strings.ToLower(filepath.Ext(path))

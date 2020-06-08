@@ -79,7 +79,7 @@ func Extract(packName string, paths []string, outFile string) error {
 						// Package name must be equal
 						if len(packName) > 0 && i18NPackName == packName {
 							// Function name must be equal
-							if funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
+							if funcName == "M" || funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
 								// Find the string to be translated
 								if str, ok := v.Args[0].(*ast.BasicLit); ok {
 									id := strings.Trim(str.Value, "\"`")
