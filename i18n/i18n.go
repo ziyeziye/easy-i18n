@@ -27,6 +27,11 @@ func SetLang(lang interface{}) {
 	p = NewPrinter(lang)
 }
 
+// GetPrinter
+func GetPrinter() *Printer {
+	return p
+}
+
 // Printf is like fmt.Printf, but using language-specific formatting.
 func Printf(format string, args ...interface{}) {
 	p.Printf(format, args...)
