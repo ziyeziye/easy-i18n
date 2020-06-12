@@ -62,7 +62,7 @@ func (p *Printer) Fprintf(w io.Writer, key message.Reference, a ...interface{}) 
 
 // String is lang
 func (p *Printer) String() string {
-	return p.lang
+	return strings.ToLower(p.lang)
 }
 
 // Preprocessing parameters in plural form
