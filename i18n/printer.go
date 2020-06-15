@@ -54,10 +54,10 @@ func (p *Printer) Sprintf(format string, args ...interface{}) string {
 }
 
 // Fprintf is like fmt.Fprintf, but using language-specific formatting.
-func (p *Printer) Fprintf(w io.Writer, key message.Reference, a ...interface{}) (n int, err error) {
-	format, args := preArgs(key.(string), a...)
-	key = message.Reference(format)
-	return p.pt.Fprintf(w, key, args...)
+func (p *Printer) Fprintf(w io.Writer, key string, a ...interface{}) (n int, err error) {
+	format, args := preArgs(key, a...)
+	_key := message.Reference(format)
+	return p.pt.Fprintf(w, _key, args...)
 }
 
 // String is lang

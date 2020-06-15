@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/BurntSushi/toml"
 	"golang.org/x/text/language"
-	"golang.org/x/text/message"
 	"gopkg.in/yaml.v2"
 	"io"
 	"io/ioutil"
@@ -43,7 +42,7 @@ func Sprintf(format string, args ...interface{}) string {
 }
 
 // Fprintf is like fmt.Fprintf, but using language-specific formatting.
-func Fprintf(w io.Writer, key message.Reference, args ...interface{}) (n int, err error) {
+func Fprintf(w io.Writer, key string, args ...interface{}) (n int, err error) {
 	return p.Fprintf(w, key, args...)
 }
 
