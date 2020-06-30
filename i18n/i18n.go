@@ -60,7 +60,7 @@ func unmarshal(path string) (*Message, error) {
 
 	buf, err := ioutil.ReadFile(path)
 	if err != nil {
-		return result, nil
+		return result, err
 	}
 
 	if strings.HasSuffix(fileExt, ".json") {
