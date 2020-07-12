@@ -82,13 +82,13 @@ func Extract(packName string, paths []string, outFile string) error {
 							if funcName == "M" || funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
 								// Find the string to be translated
 								if str, ok := v.Args[0].(*ast.BasicLit); ok {
-									id := strings.Trim(str.Value, "\"`")
+									id := trim(str.Value)
 									if _, ok := messages[id]; !ok {
 										messages[id] = id
 									}
 									fmt.Printf("Extract %+v %v.%v => %s\n", namePos, packName, funcName, id)
 								} else if str, ok := v.Args[1].(*ast.BasicLit); ok {
-									id := strings.Trim(str.Value, "\"`")
+									id := trim(str.Value)
 									if _, ok := messages[id]; !ok {
 										messages[id] = id
 									}
@@ -102,7 +102,7 @@ func Extract(packName string, paths []string, outFile string) error {
 										break
 									}
 									if str, ok := v.Args[i].(*ast.BasicLit); ok {
-										id := strings.Trim(str.Value, "\"`")
+										id := trim(str.Value)
 										if _, ok := messages[id]; !ok {
 											messages[id] = id
 										}
@@ -160,4 +160,8 @@ func i18nPackageName(file *ast.File) string {
 		}
 	}
 	return ""
+}
+
+func trim(text string) string {
+	return text[1 : len(text)-1]
 }
