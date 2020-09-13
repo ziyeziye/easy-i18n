@@ -19,7 +19,10 @@ func Extract(packName string, paths []string, outFile string) error {
 	}
 	messages := map[string]string{}
 	for _, path := range paths {
-
+		// ignore easy-i18n
+		if strings.Index(path, "mylukin/easy-i18n") > -1 {
+			continue
+		}
 		if err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
@@ -79,7 +82,7 @@ func Extract(packName string, paths []string, outFile string) error {
 						// Package name must be equal
 						if len(packName) > 0 && i18NPackName == packName {
 							// Function name must be equal
-							if funcName == "M" || funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
+							if funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
 								// Find the string to be translated
 								if str, ok := v.Args[0].(*ast.BasicLit); ok {
 									id := trim(str.Value)
@@ -119,7 +122,7 @@ func Extract(packName string, paths []string, outFile string) error {
 			})
 			return nil
 		}); err != nil {
-			return err
+			fmt.Printf("Extract error: %s\n", err)
 		}
 	}
 

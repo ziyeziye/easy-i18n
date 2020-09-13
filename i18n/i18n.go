@@ -4,14 +4,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/BurntSushi/toml"
-	"golang.org/x/text/language"
-	"gopkg.in/yaml.v2"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/BurntSushi/toml"
+	"golang.org/x/text/language"
+	"gopkg.in/yaml.v2"
 )
 
 var p *Printer
@@ -45,11 +46,6 @@ func Sprintf(format string, args ...interface{}) string {
 // Fprintf is like fmt.Fprintf, but using language-specific formatting.
 func Fprintf(w io.Writer, key string, args ...interface{}) (n int, err error) {
 	return p.Fprintf(w, key, args...)
-}
-
-// M is message
-func M(format string, args ...interface{}) string {
-	return p.Sprintf(format, args...)
 }
 
 func unmarshal(path string) (*Message, error) {

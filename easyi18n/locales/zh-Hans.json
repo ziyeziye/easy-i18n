@@ -1,12 +1,13 @@
 {
-  "%s extract [path] [outfile]": "%s 提取 [路径] [输出文件]",
-  "%s generate [path] [outfile]": "%s 生成 [路径] [输出文件]",
-  "%s update srcfile destfile": "%s 更新 源文件 输出文件",
-  "a tool for managing message translations.": "用于管理消息翻译的工具。",
-  "destfile cannot be empty": "输出文件不能为空",
-  "extracts strings to be translated from code": "从代码中提取要翻译的字符串",
-  "generated go file package name": "生成的go文件包名称",
-  "generates code to insert translated messages": "生成代码以插入翻译后的消息",
-  "merge translations and generate catalog": "合并翻译并生成目录",
-  "srcfile cannot be empty": "源文件不能为空"
+  "%s extract [path] [outfile]": "%s extract [path] [outfile]",
+  "%s generate [path] [outfile]": "%s generate [path] [outfile]",
+  "%s update srcfile destfile": "%s update srcfile destfile",
+  "a tool for managing message translations.": "a tool for managing message translations.",
+  "destfile cannot be empty": "destfile cannot be empty",
+  "extracts strings to be translated from code": "extracts strings to be translated from code",
+  "generated go file package name": "generated go file package name",
+  "generates code to insert translated messages": "generates code to insert translated messages",
+  "merge translations and generate catalog": "merge translations and generate catalog",
+  "package name": "package name",
+  "srcfile cannot be empty": "srcfile cannot be empty"
 }

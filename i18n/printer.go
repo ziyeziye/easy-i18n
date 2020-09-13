@@ -1,12 +1,13 @@
 package i18n
 
 import (
-	"golang.org/x/text/language"
-	"golang.org/x/text/message"
 	"io"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 )
 
 // Printer is printer
@@ -44,21 +45,18 @@ func NewPrinter(lang interface{}) *Printer {
 // Printf is like fmt.Printf, but using language-specific formatting.
 func (p *Printer) Printf(format string, args ...interface{}) {
 	format, args = preArgs(format, args...)
-	//format = strings.Trim(strconv.Quote(format), `"`)
 	p.pt.Printf(format, args...)
 }
 
 // Sprintf is like fmt.Sprintf, but using language-specific formatting.
 func (p *Printer) Sprintf(format string, args ...interface{}) string {
 	format, args = preArgs(format, args...)
-	//format = strings.Trim(strconv.Quote(format), `"`)
 	return p.pt.Sprintf(format, args...)
 }
 
 // Fprintf is like fmt.Fprintf, but using language-specific formatting.
 func (p *Printer) Fprintf(w io.Writer, key string, a ...interface{}) (n int, err error) {
 	format, args := preArgs(key, a...)
-	//format = strings.Trim(strconv.Quote(format),`"`)
 	_key := message.Reference(format)
 	return p.pt.Fprintf(w, _key, args...)
 }

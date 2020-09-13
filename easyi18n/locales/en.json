@@ -8,5 +8,6 @@
   "generated go file package name": "generated go file package name",
   "generates code to insert translated messages": "generates code to insert translated messages",
   "merge translations and generate catalog": "merge translations and generate catalog",
+  "package name": "package name",
   "srcfile cannot be empty": "srcfile cannot be empty"
 }
