@@ -9,6 +9,7 @@ import (
 	"gopkg.in/yaml.v2"
 	"io"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -53,6 +54,14 @@ func M(format string, args ...interface{}) string {
 
 func unmarshal(path string) (*Message, error) {
 	result := &Message{}
+
+	_, err := os.Stat(path)
+	if err != nil {
+		if !os.IsExist(err) {
+			return result, err
+		}
+	}
+
 	fileExt := strings.ToLower(filepath.Ext(path))
 	if fileExt != ".toml" && fileExt != ".json" && fileExt != ".yaml" {
 		return result, fmt.Errorf(Sprintf("File type not supported"))
