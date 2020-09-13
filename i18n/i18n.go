@@ -58,7 +58,7 @@ func unmarshal(path string) (*Message, error) {
 	_, err := os.Stat(path)
 	if err != nil {
 		if !os.IsExist(err) {
-			return result, err
+			return result, nil
 		}
 	}
 
