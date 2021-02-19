@@ -19,15 +19,15 @@ func Extract(packName string, paths []string, outFile string) error {
 	}
 	messages := map[string]string{}
 	for _, path := range paths {
-		// ignore easy-i18n
-		if strings.Index(path, "mylukin/easy-i18n") > -1 {
-			continue
-		}
 		if err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
 			if info.IsDir() {
+				return nil
+			}
+			// ignore easy-i18n
+			if strings.Index(path, "github.com/mylukin/easy-i18n") > -1 {
 				return nil
 			}
 			if filepath.Ext(path) != ".go" {
@@ -79,6 +79,7 @@ func Extract(packName string, paths []string, outFile string) error {
 						}
 						funcName := fn.Sel.Name
 						namePos := fset.Position(fn.Sel.NamePos)
+
 						// Package name must be equal
 						if len(packName) > 0 && i18NPackName == packName {
 							// Function name must be equal
