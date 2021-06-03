@@ -9,7 +9,7 @@ import (
 )
 
 // Update messages
-func Update(srcFile string, destFile string) error {
+func Update(srcFile string, destFile string, flush bool) error {
 	if len(srcFile) == 0 {
 		return fmt.Errorf(Sprintf("srcFile cannot be empty"))
 	}
@@ -30,7 +30,7 @@ func Update(srcFile string, destFile string) error {
 	result := *dstMessages
 	// Delete untranslated lines
 	for key, value := range *dstMessages {
-		if key == value {
+		if flush || key == value {
 			delete(result, key)
 		}
 	}
