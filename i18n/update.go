@@ -27,10 +27,16 @@ func Update(srcFile string, destFile string, flush bool) error {
 		return err
 	}
 
+	oldMessages := *srcMessages
 	result := *dstMessages
 	// Delete untranslated lines
 	for key, value := range *dstMessages {
-		if flush || key == value {
+		// Delete untranslated
+		if key == value {
+			delete(result, key)
+		}
+		// Delete non-existent key
+		if _, ok := oldMessages[key]; !ok && flush {
 			delete(result, key)
 		}
 	}
