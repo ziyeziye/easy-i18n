@@ -7,8 +7,9 @@ package main
 
 import (
 	"fmt"
-	"golang.org/x/text/language"
 	"os"
+
+	"golang.org/x/text/language"
 
 	_ "github.com/mylukin/easy-i18n/example/catalog"
 	"github.com/mylukin/easy-i18n/i18n"
@@ -23,6 +24,9 @@ func main() {
 	i18n.SetLang(language.SimplifiedChinese)
 
 	i18n.Printf(`hello world!`)
+	fmt.Println()
+
+	i18n.Printf(`hello world!`, i18n.Domain{`example`})
 	fmt.Println()
 
 	name := `Lukin`
