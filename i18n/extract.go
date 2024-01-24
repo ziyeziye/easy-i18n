@@ -107,13 +107,34 @@ func Extract(packName string, paths []string, outFile string) error {
 										}
 									}
 								}
-
-								// Find the string to be translated
-								if str, ok := v.Args[0].(*ast.BasicLit); ok {
-									id = trim(str.Value)
-								} else if str, ok := v.Args[1].(*ast.BasicLit); ok {
-									id = trim(str.Value)
+								var fn func(arg ast.Expr) string
+								fn = func(arg ast.Expr) string {
+									switch value := arg.(type) {
+									case *ast.BasicLit:
+										id = trim(value.Value)
+									case *ast.Ident:
+										if value.Obj.Kind == ast.Con {
+											if spec, ok := value.Obj.Decl.(*ast.ValueSpec); ok {
+												for _, v := range spec.Values {
+													val := fn(v)
+													if val != "" {
+														return val
+													}
+												}
+											}
+										}
+									}
+									return ""
 								}
+								// Find the string to be translated
+								for _, arg := range v.Args {
+									val := fn(arg)
+									if val != "" {
+										id = val
+										break
+									}
+								}
+
 								if id != "" {
 									value := id
 									if domain != "" {
