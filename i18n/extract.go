@@ -214,5 +214,11 @@ func i18nPackageName(file *ast.File) string {
 }
 
 func trim(text string) string {
-	return text[1 : len(text)-1]
+	if len(text) > 2 &&
+		(text[0] == '"' && text[len(text)-1] == '"') ||
+		(text[0] == '`' && text[len(text)-1] == '`') {
+		return text[1 : len(text)-1]
+	}
+	return text
 }
+
