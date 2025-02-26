@@ -60,6 +60,11 @@ func (p *Printer) Sprintf(format string, args ...interface{}) string {
 	return p.pt.Sprintf(format, args...)
 }
 
+func (p *Printer) SprintfLocales(format string, args ...interface{}) string {
+	format, args = preArgs(format, args...)
+	return p.pt.Sprintf(format, args...)
+}
+
 // Fprintf is like fmt.Fprintf, but using language-specific formatting.
 func (p *Printer) Fprintf(w io.Writer, key string, a ...interface{}) (n int, err error) {
 	format, args := preArgs(key, a...)

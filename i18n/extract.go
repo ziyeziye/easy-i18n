@@ -83,7 +83,7 @@ func Extract(packName string, paths []string, outFile string) error {
 						// Package name must be equal
 						if len(packName) > 0 && i18NPackName == packName {
 							// Function name must be equal
-							if funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" {
+							if funcName == "Printf" || funcName == "Sprintf" || funcName == "Fprintf" || funcName == "GenerateLocales" {
 								id := ""
 								domain := ""
 								// get domain
@@ -221,4 +221,3 @@ func trim(text string) string {
 	}
 	return text
 }
-
